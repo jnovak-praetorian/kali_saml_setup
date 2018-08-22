@@ -1,2 +1,2 @@
-# kali_saml_setup
-Setup scripts for simplesamlphp on kali
+# Kali Linux SAML Setup
+Setup scripts for simplesamlphp on Kali Linux.
