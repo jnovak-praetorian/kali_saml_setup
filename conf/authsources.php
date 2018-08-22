@@ -46,7 +46,7 @@ $config = array(
             'uid' => array('employee'),
             'eduPersonAffiliation' => array('member', 'employee'),
         ),
-	'username:Password123' => array(
+	'username:password' => array(
 	    'email' => array('example@praetorian.com'),
 	    'firstName' => 'Security',
 	    'lastName' => 'Engineer',

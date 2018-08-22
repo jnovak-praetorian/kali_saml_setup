@@ -8,7 +8,7 @@ $metadata['https://HOSTNAME/simplesamlphp/module.php/saml/sp/metadata.php/defaul
 
 $metadata['https://example.customer.com/saml/metadata.xml'] = array(
     'AssertionConsumerService' => 'https://example.customer.com/saml/acs.endpoint',
-    'SingleLogoutService'      => 'https://example.customer.com/saml/logout.endpoint'
+    'SingleLogoutService'      => 'https://example.customer.com/saml/logout.endpoint',
     'NameIDFormat' => 'urn:oasis:names:tc:SAML:1.1:nameid-format:unspecified',
     'simplesaml.nameidattribute' => 'email',
 );
