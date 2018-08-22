@@ -30,7 +30,7 @@ echo 'Enabling logging in simplesamlphp'
 sed -i "s/'saml' => false,/'saml' => true,/g" /etc/simplesamlphp/config.php
 sed -i "s/'backtraces' => false,/'backtraces' => true,/g" /etc/simplesamlphp/config.php
 sed -i "s/'validatexml' => false,/'validatexml' => true,/g" /etc/simplesamlphp/config.php
-sed -i "s/'logging.level' => SimpleSAML\Logger::INFO,/'logging.level' => SimpleSAML\Logger::DEBUG,/g" /etc/simplesamlphp/config.php
+sed -i "s/'logging.level' => SimpleSAML\Logger::NOTICE,/'logging.level' => SimpleSAML\Logger::DEBUG,/g" /etc/simplesamlphp/config.php
 sed -i "s/'logging.handler' => 'syslog',/'logging.handler' => 'file',/g" /etc/simplesamlphp/config.php
 
 ######################
@@ -49,6 +49,9 @@ cp ./conf/authsources.php /etc/simplesamlphp/
 ######################
 
 echo -e "\n\nTest the default-sp authentication source here: https://$HOSTNAME/simplesamlphp/module.php/core/authenticate.php\n\nTest IdP-initiated login here: https://$HOSTNAME/simplesamlphp/saml2/idp/SSOService.php?spentityid=https://$HOSTNAME/simplesamlphp/module.php/saml/sp/metadata.php/default-sp&RelayState=https://$HOSTNAME/simplesamlphp/module.php/core/authenticate.php?as=default-sp\n\n"
+
+echo "Your admin password is below:"
+cat /var/lib/simplesamlphp/secrets.inc.php
 
 echo 'Finishing up'
 service apache2 restart
