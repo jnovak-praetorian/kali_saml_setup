@@ -16,7 +16,7 @@ apt-get update && apt-get install -y apache2 simplesamlphp php-xml php-curl php-
 echo 'Enabling SSL on server'
 if [ ! -f /etc/ssl/certs/kali_saml.crt ]
 then
-    openssl req -newkey rsa:2048 -new -x509 -days 3652 -nodes -out /etc/ssl/certs/kali_saml.crt -keyout /etc/ssl/certs/kali_saml.key
+    openssl req -newkey rsa:2048 -new -x509 -days 3652 -nodes -out /etc/ssl/certs/kali_saml.crt -keyout /etc/ssl/certs/kali_saml.key -subj "/C=US/ST=Texas/L=Austin/O=Praetorian/CN=$HOSTNAME/"
     chmod 644 /etc/ssl/certs/kali_saml.key
 fi
 
@@ -30,7 +30,7 @@ echo 'Enabling logging in simplesamlphp'
 sed -i "s/'saml' => false,/'saml' => true,/g" /etc/simplesamlphp/config.php
 sed -i "s/'backtraces' => false,/'backtraces' => true,/g" /etc/simplesamlphp/config.php
 sed -i "s/'validatexml' => false,/'validatexml' => true,/g" /etc/simplesamlphp/config.php
-sed -i "s/'logging.level' => SimpleSAML\Logger::NOTICE,/'logging.level' => SimpleSAML\Logger::DEBUG,/g" /etc/simplesamlphp/config.php
+sed -i "s/'logging.level' => SimpleSAML\\\\Logger::NOTICE,/'logging.level' => SimpleSAML\\\\Logger::DEBUG,/g" /etc/simplesamlphp/config.php
 sed -i "s/'logging.handler' => 'syslog',/'logging.handler' => 'file',/g" /etc/simplesamlphp/config.php
 
 ######################
@@ -48,11 +48,18 @@ cp ./conf/authsources.php /etc/simplesamlphp/
 
 ######################
 
-echo -e "\n\nTest the default-sp authentication source here: https://$HOSTNAME/simplesamlphp/module.php/core/authenticate.php\n\nTest IdP-initiated login here: https://$HOSTNAME/simplesamlphp/saml2/idp/SSOService.php?spentityid=https://$HOSTNAME/simplesamlphp/module.php/saml/sp/metadata.php/default-sp&RelayState=https://$HOSTNAME/simplesamlphp/module.php/core/authenticate.php?as=default-sp\n\n"
-
-echo "Your admin password is below:"
-cat /var/lib/simplesamlphp/secrets.inc.php
-
 echo 'Finishing up'
 service apache2 restart
+
+######################
+
+set -
+
+echo "\nTest the default-sp authentication source here: https://$HOSTNAME/simplesamlphp/module.php/core/authenticate.php\n\nTest IdP-initiated login here: https://$HOSTNAME/simplesamlphp/saml2/idp/SSOService.php?spentityid=https://$HOSTNAME/simplesamlphp/module.php/saml/sp/metadata.php/default-sp&RelayState=https://$HOSTNAME/simplesamlphp/module.php/core/authenticate.php?as=default-sp\n"
+
+echo "User account information is found here: /etc/simplesamlphp/authsources.php\n"
+
+echo "Your admin password is below (from /var/lib/simplesamlphp/secrets.inc.php):"
+grep adminpassword /var/lib/simplesamlphp/secrets.inc.php
+echo ""
 
